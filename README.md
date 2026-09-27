@@ -94,6 +94,13 @@ use exposed controls and check active work before reassignment. After a bounded
 correction, use affected checks and targeted review confirmation; wording-only
 changes need parent assessment.
 
+A simple choice can still be critical when other work depends on it and changing
+course later would be costly. Before committing to such an open decision, the
+parent seeks a bounded advisor opinion and reuses an existing challenge while its
+evidence remains applicable. Critical advice requests the most capable suitable
+model permitted by the user's settings and the host; the parent keeps the decision,
+and the final acceptance review still checks the resulting work.
+
 ## What's included
 
 | Component | Purpose |
