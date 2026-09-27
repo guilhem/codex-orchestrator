@@ -7,7 +7,24 @@ import unittest
 
 
 PLUGIN = Path(__file__).resolve().parents[1]
-HOOK = json.loads((PLUGIN / 'hooks/hooks.json').read_text())['hooks']['SessionStart'][0]['hooks'][0]
+HOOKS = json.loads((PLUGIN / 'hooks/hooks.json').read_text())['hooks']
+HOOK = HOOKS['SessionStart'][0]['hooks'][0]
+PROMPT_HOOK = HOOKS['UserPromptSubmit'][0]['hooks'][0]
+
+
+class PromptReminderHookTests(unittest.TestCase):
+    def test_prompt_hook_emits_the_packaged_reminder(self):
+        with tempfile.TemporaryDirectory(prefix='codex orchestrator prompt ') as temporary:
+            home = Path(temporary)
+            env = {**os.environ, 'PLUGIN_ROOT': str(PLUGIN)}
+            command = PROMPT_HOOK['commandWindows' if os.name == 'nt' else 'command']
+            command = command.replace('${PLUGIN_ROOT}', str(PLUGIN))
+            result = subprocess.run(command, shell=True, cwd=home, env=env,
+                                    capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            # PowerShell adds a transport newline after Get-Content -Raw output.
+            self.assertEqual(result.stdout.rstrip('\r\n'),
+                             (PLUGIN / 'hooks/prompt-reminder.txt').read_text().rstrip('\r\n'))
 
 
 class InstallRoutingProfilesTests(unittest.TestCase):

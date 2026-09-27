@@ -1,4 +1,4 @@
 interface:
   display_name: "Codex Orchestrator"
-  short_description: "Delegate work; interpret evidence and own acceptance"
-  default_prompt: "Use $codex-orchestrator:orchestration to delegate research, execution, verification, and review while the parent owns decisions and acceptance."
+  short_description: "Choose direct work or delegation; own decisions and acceptance"
+  default_prompt: "Use $codex-orchestrator:orchestration to choose direct work or useful delegation; the parent owns decisions and acceptance."
