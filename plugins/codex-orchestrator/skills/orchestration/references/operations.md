@@ -30,14 +30,15 @@ delegation is unavailable, a delegate returns a ready brief for parent coordinat
 
 Advice is ordinary bounded, read-only delegation, not an escalation chain. Ask the
 parent about product intent, history, scope, ownership, or permissions. The parent
-may seek advice on its own decisions; a delegate may consult an advisor within its
-assignment when native tools support it.
+may seek advice on its own decisions. For an isolated technical question, a delegate
+may consult an advisor when its assignment permits it and native tools support it.
 
 For a critical decision, name the concrete consequences of being wrong and the cost
 of changing course: for example, an interface or data shape that dependent work will
-build on. Consult before that commitment, including when the decision emerges in an
-ongoing assignment. Many affected files or high confidence alone do not establish
-or remove criticality. Respect choices settled by the user; reuse a prior challenge
+build on. Consult before that commitment. A delegate encountering a critical decision
+mid-assignment returns it to the parent if it exceeds its mandate or advice is not
+authorized. Many affected files or high confidence alone do not establish or remove
+criticality. Respect choices settled by the user; reuse a prior challenge
 while its assumptions and scope remain valid. A powerful executor or a planned
 final review alone does not supply that prior challenge.
 
