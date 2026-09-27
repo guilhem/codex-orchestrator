@@ -7,6 +7,12 @@ and operational steps within that mission. An information request does not
 authorize edits. Assign writing workers distinct files and preserve concurrent
 changes; keep exploration and review read-only.
 
+Do independent work while a delegate runs; wait when its result is the next
+dependency. Message delivery and interruption semantics depend on the host. Sending
+or queueing a message is not evidence that active work stopped. Use exposed controls
+and confirm active work has stopped before transferring ownership; preserve any
+completed or in-flight side effects.
+
 Leave `model` and `reasoning_effort` absent unless explicitly pinned. An
 optional separately installed router may handle unpinned native spawns; explicit
 settings and native roles remain authoritative. A selected model is distinct

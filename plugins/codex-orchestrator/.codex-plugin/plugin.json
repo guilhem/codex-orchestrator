@@ -13,15 +13,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Codex Orchestrator",
-    "shortDescription": "Delegate work; interpret evidence and own decisions.",
-    "longDescription": "The selected parent delegates research, execution, verification, and review through native Codex agents, then interprets evidence and owns decisions and acceptance. Optional model routing is provided by the separate codex-subagent-router plugin.",
+    "shortDescription": "Choose direct work or delegation; own decisions and acceptance.",
+    "longDescription": "The parent chooses direct work or delegates coherent research and execution through native Codex agents, then interprets evidence and owns decisions and acceptance. Optional model routing is provided by the separate codex-subagent-router plugin.",
     "developerName": "Guilhem Lettron",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
     "websiteURL": "https://github.com/guilhem/codex-orchestrator",
     "defaultPrompt": [
-      "Use $codex-orchestrator:orchestration to plan, build, verify, and review this work.",
-      "Keep decisions and acceptance with the parent; delegate research, execution, verification, and review."
+      "Use $codex-orchestrator:orchestration to choose direct work or useful delegation, then verify the result.",
+      "Keep decisions and acceptance with the parent; give delegates complete authorized assignments."
     ]
   }
 }

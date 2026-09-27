@@ -1,15 +1,16 @@
 ---
 name: orchestration
-description: "Delegate software research, implementation, verification, and review through native Codex agents while the parent interprets evidence and owns decisions."
+description: "Guide when to work directly or delegate software tasks through native Codex agents while the parent owns decisions and acceptance."
 ---
 
 # Codex Orchestrator
 
-The parent frames the objective, constraints, ownership, and expected result.
-Delegate when the work needs new research or repository inspection, execution,
-verification, or independent review. The parent can answer directly from existing
-evidence when no delegated work is needed. It interprets returned evidence,
-arbitrates, decides the next step, and accepts the result. Reuse the
+The parent frames the objective, constraints, ownership, and expected result, then
+interprets evidence and owns decisions and acceptance. Keep short lookups and
+sequential critical-path work with the parent when briefing and waiting would cost
+more than doing the work.
+Delegate a coherent autonomous task or independent workstream when separate context
+or parallel progress adds value, accounting for briefing and integration. Use the
 [retained squire](references/squire.md) for related operational missions. Do not
 repeat a delegate's work in the parent. Loading required instructions and native
 agent coordination remain parent actions.
