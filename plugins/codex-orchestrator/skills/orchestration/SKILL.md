@@ -15,6 +15,12 @@ or parallel progress adds value, accounting for briefing and integration. Use th
 repeat a delegate's work in the parent. Loading required instructions and native
 agent coordination remain parent actions.
 
+Assess decision criticality separately from task difficulty. Before committing work
+to an open decision whose failure would cause substantial harm or costly downstream
+rework, obtain bounded [advice](references/operations.md#advice-when-useful), even
+when the choice seems easy. Reuse still-applicable evidence that already challenges
+the same decision.
+
 Follow user instructions, applicable `AGENTS.md`, and actual host permissions.
 Use [native delegation](references/operations.md) for assignments and capabilities.
 Leave `model` and `reasoning_effort` unset unless intentionally pinned.

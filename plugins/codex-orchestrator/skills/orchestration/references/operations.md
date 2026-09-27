@@ -29,13 +29,31 @@ delegation is unavailable, a delegate returns a ready brief for parent coordinat
 ## Advice when useful
 
 Advice is ordinary bounded, read-only delegation, not an escalation chain. Ask the
-parent about product intent, history, scope, ownership, or permissions. For an
-isolated technical question, a delegate may consult an advisor when its assignment
-permits it and native tools support it. Send a compact question, evidence, attempts,
-recommendation, and constraints. The advisor cannot edit, take over execution, or
-delegate again; parent decisions stay with the parent. Check deferred native tools
-before declaring direct advice unavailable. If unavailable, return the question to
-the parent. Include useful advice and uncertainty in the mission result.
+parent about product intent, history, scope, ownership, or permissions. The parent
+may seek advice on its own decisions; a delegate may consult an advisor within its
+assignment when native tools support it.
+
+For a critical decision, name the concrete consequences of being wrong and the cost
+of changing course: for example, an interface or data shape that dependent work will
+build on. Consult before that commitment, including when the decision emerges in an
+ongoing assignment. Many affected files or high confidence alone do not establish
+or remove criticality. Respect choices settled by the user; reuse a prior challenge
+while its assumptions and scope remain valid. A powerful executor or a planned
+final review alone does not supply that prior challenge.
+
+For critical decisions, request the most capable suitable advisor allowed by user
+and repository requirements and exposed by the host; explicitly pin the model when
+supported and authorized. Follow the routing rules above for unavailable or
+unconfirmed settings.
+
+Send a compact question, source evidence, assumptions, options, recommendation,
+constraints, and downstream consequences. Ask for material objections and a way to
+check them; an advisor may conclude that no change is needed. Keep one consultation
+per decision unless new evidence, assumptions, or consequences warrant another.
+The advisor cannot edit, take over execution, or delegate again; the parent decides.
+Advice does not replace acceptance review. Check deferred native tools before
+declaring advice unavailable; delegates return the question to the parent if needed.
+Include useful advice, uncertainty, and the resulting decision in the mission result.
 
 ## Separately requested app tasks
 
