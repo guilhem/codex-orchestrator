@@ -68,67 +68,54 @@ settings.
 
 ## How it works
 
+**The orchestrator decides; the squire carries out the mission.** The
+orchestrator is the parent agent you talk to. The **squire (écuyer)** is its
+delegate, reused across related work so it keeps useful context.
+
+Squires, workers, advisors, and reviewers are all **sub-agents**. These names
+describe their jobs. For eligible new agents,
+[model routing](#optional-model-routing) selects the requested model and effort.
+
 ```mermaid
 flowchart TB
-    Orchestrator["Orchestrator (parent)<br/>Scope, decisions, acceptance"]
+    accTitle: Orchestrator, routing, and agent roles
+    accDescr: The orchestrator assigns the work. Optional routing selects model and effort when each sub-agent is created. The squire executes missions, workers handle specific tasks, the advisor challenges decisions, and the reviewer checks finished work.
+    Orchestrator["Orchestrator<br/>Decides and accepts the result"]
+    Routing["Routing · optional<br/>Mission → model + effort"]
+    Squire["Squire / écuyer<br/>Researches, builds, verifies"]
+    Workers["Workers<br/>Handle specific tasks"]
+    Advisor["Advisor<br/>Challenges a decision, read-only"]
+    Reviewer["Reviewer<br/>Checks finished work, read-only"]
 
-    subgraph Agents["Native sub-agents"]
-        Squire["Squire (écuyer)<br/>Retained delegate: research, build, verify"]
-        Workers["Workers<br/>Bounded tasks with explicit ownership"]
-        Advisor["Advisor<br/>Read-only advice before a decision"]
-        Reviewer["Independent reviewer<br/>Read-only acceptance review"]
-        Squire -->|authorized tasks| Workers
-        Workers -->|results and checks| Squire
-    end
-
-    Orchestrator -->|complete mission and follow-ups| Squire
-    Squire -->|evidence and open decisions| Orchestrator
-    Orchestrator -->|bounded question| Advisor
-    Advisor -->|objections and advice| Orchestrator
-    Orchestrator -->|stable artifact when review is required| Reviewer
-    Reviewer -->|findings| Orchestrator
-
-    Router["Optional router · Jev<br/>Select by the actual delegated mission"]
-    Profiles["Routine · Implementation · Complex<br/>Each profile sets model + reasoning_effort"]
-    Router -.->|choose an installed profile| Profiles
-    Profiles -.->|settings for eligible new spawns| Agents
+    Orchestrator --> Routing
+    Routing -->|mission| Squire
+    Routing -->|advice| Advisor
+    Routing -->|review| Reviewer
+    Squire -->|assigns tasks if authorized| Workers
 ```
 
-Solid arrows show assignments and returned evidence; dotted arrows show optional
-model selection. The squire, workers, advisor, and reviewer are all native
-sub-agents. Their assigned role does not imply a fixed model: the router selects
-settings from the mission, while your selected parent model stays in charge.
+The orchestrator assigns the work. The routing block selects model and effort
+when a sub-agent is created, including workers launched by the squire. Results,
+checks, and open questions return to the caller; **the orchestrator makes the
+final decision**. It keeps short tasks direct when delegation would cost more.
 
-| Role | Responsibility |
-| --- | --- |
-| **Orchestrator (parent)** | Sets scope and permissions, delegates when useful, interprets evidence, and makes decisions and final acceptance. Keeps short or tightly dependent work direct. |
-| **Squire (écuyer)** | A delegate reused across related missions. Investigates, implements, verifies, and follows up; coordinates workers only when authorized. Does not accept its own work. |
-| **Workers** | Sub-agents assigned bounded tasks by the parent or an authorized squire, with distinct ownership for edits. Return results and checks to their caller. |
-| **Advisor** | Challenges a bounded decision with evidence and objections, especially before a critical commitment. Cannot edit, take over execution, or delegate again; the parent keeps the decision. |
-| **Independent reviewer** | Launched directly by the parent to assess the stable artifact when acceptance needs independent review. Advice does not replace this review. |
-| **Router (optional)** | Uses Jev to choose an installed profile by the delegated mission, setting model and reasoning effort for eligible new spawns. The bundled profiles are detailed [below](#optional-model-routing). |
+The parent can also launch workers directly. A squire can consult an advisor for a
+technical question when its mission permits it. Both depend on the host's native
+tools; if the squire cannot delegate, it gives the parent a ready task brief.
 
-A squire may also consult an advisor for an isolated technical question when its
-assignment and native tools permit it. If nested delegation is unavailable, it
-returns a ready brief for the parent to dispatch. Delegates return sources,
-completed actions and checks, uncertainty, and unresolved decisions; the parent
-reports observed results and material limitations.
+**Advice comes before a decision; review checks the resulting work.** Before a
+critical commitment, the parent consults an advisor using the most capable
+suitable model allowed by the user and host, reusing still-applicable advice.
+The advisor cannot edit or delegate. The parent separately requests independent
+review for changes to behavior, supported contracts, or authority boundaries, or
+when acceptance needs independent evidence.
 
-Assignments carry explicit scope and permissions. A research request does not
-authorize edits. Give a squire the complete authorized outcome and stopping
-condition, and let it finish dependent phases without routine parent handoffs. Reuse
-it for follow-ups with changed context; split the initial assignment only for a
-verified host routing constraint. Message delivery and interruption are host-specific:
-use exposed controls and check active work before reassignment. After a bounded
-correction, use affected checks and targeted review confirmation; wording-only
-changes need parent assessment.
-
-A simple choice can still be critical when other work depends on it and changing
-course later would be costly. Before committing to such an open decision, the
-parent seeks a bounded advisor opinion and reuses an existing challenge while its
-evidence remains applicable. Critical advice requests the most capable suitable
-model permitted by the user's settings and the host; the parent keeps the decision,
-and the final acceptance review still checks the resulting work.
+Each assignment defines scope, permissions, and a stopping condition. A research
+request does not authorize edits. The squire carries its complete mission through
+to a result; the parent reuses it for follow-ups while its context remains useful.
+See [native delegation](plugins/codex-orchestrator/skills/orchestration/references/operations.md)
+and [squire reuse](plugins/codex-orchestrator/skills/orchestration/references/squire.md)
+for handoff and ownership rules.
 
 ## What's included
 
@@ -142,9 +129,18 @@ selection is an optional integration described below.
 
 ## Optional model routing
 
+**The orchestrator chooses the job; the router chooses the model and effort.**
+Routing applies when a new squire, worker, advisor, or reviewer is created. Your
+selected parent model stays unchanged.
+
 Install and configure [codex-subagent-router](https://github.com/guilhem/codex-subagent-router)
 separately to use Jev for model and effort selection on eligible native agent
 spawns. That plugin owns the routing hook, SDK, and `TYPESAFE_API_KEY` setup.
+
+Explicit settings are `model`, `reasoning_effort`, or a native role (`agent_type`):
+any one of them bypasses routing. Without a routing selection, the host keeps
+explicit choices and uses its defaults for the rest. Reusing an existing squire
+does not create a new agent or trigger a new routing selection.
 
 Codex Orchestrator supplies three editable profiles:
 
@@ -165,11 +161,9 @@ Edit the installed profiles to customize routing. Existing files are preserved.
 To restore a bundled profile, delete its installed copy and start a new session;
 disable the hook before removing the profiles permanently.
 
-The skill leaves model and effort unset unless intentionally pinned. An explicit
-`model`, `reasoning_effort`, or native role (`agent_type`) bypasses the router.
-Without a routing selection, native spawn settings apply. User and repository
-requirements still apply. A routing choice records selection; confirming which
-model actually ran requires runtime evidence.
+The skill leaves model and effort unset unless intentionally pinned. User and
+repository requirements still apply. A routing choice records selection;
+confirming which model actually ran requires runtime evidence.
 
 ## Migrating from Astra Advisor
 
