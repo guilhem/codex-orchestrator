@@ -69,21 +69,50 @@ settings.
 ## How it works
 
 ```mermaid
-flowchart LR
-    User["You · goal and constraints"] --> Parent["Parent · decisions and acceptance"]
-    Parent -->|bounded assignments| Squire["Squire and workers · research, build, verify"]
-    Squire -->|evidence and open questions| Parent
-    Parent -->|when needed| Reviewer["Independent reviewer · read-only assessment"]
-    Reviewer -->|findings| Parent
-    Parent -->|accepted result| User
+flowchart TB
+    Orchestrator["Orchestrator (parent)<br/>Scope, decisions, acceptance"]
+
+    subgraph Agents["Native sub-agents"]
+        Squire["Squire (écuyer)<br/>Retained delegate: research, build, verify"]
+        Workers["Workers<br/>Bounded tasks with explicit ownership"]
+        Advisor["Advisor<br/>Read-only advice before a decision"]
+        Reviewer["Independent reviewer<br/>Read-only acceptance review"]
+        Squire -->|authorized tasks| Workers
+        Workers -->|results and checks| Squire
+    end
+
+    Orchestrator -->|complete mission and follow-ups| Squire
+    Squire -->|evidence and open decisions| Orchestrator
+    Orchestrator -->|bounded question| Advisor
+    Advisor -->|objections and advice| Orchestrator
+    Orchestrator -->|stable artifact when review is required| Reviewer
+    Reviewer -->|findings| Orchestrator
+
+    Router["Optional router · Jev<br/>Select by the actual delegated mission"]
+    Profiles["Routine · Implementation · Complex<br/>Each profile sets model + reasoning_effort"]
+    Router -.->|choose an installed profile| Profiles
+    Profiles -.->|settings for eligible new spawns| Agents
 ```
 
-| Responsibility | How the skill assigns it |
+Solid arrows show assignments and returned evidence; dotted arrows show optional
+model selection. The squire, workers, advisor, and reviewer are all native
+sub-agents. Their assigned role does not imply a fixed model: the router selects
+settings from the mission, while your selected parent model stays in charge.
+
+| Role | Responsibility |
 | --- | --- |
-| **Frame and decide** | The parent sets the objective, scope, ownership, and expected result; interprets evidence; and accepts the work. It keeps work direct when delegation would cost more. |
-| **Research and execute** | When delegation adds value, the squire investigates, implements, verifies, and follows up within its assignment. It can coordinate workers when authorized. |
-| **Review independently** | The parent requests a read-only acceptance review for changes to behavior, supported contracts, or authority boundaries, or when acceptance needs independent evidence. |
-| **Report honestly** | Delegates return sources, completed actions and checks, uncertainty, and unresolved decisions. The parent reports observed results and material limitations. |
+| **Orchestrator (parent)** | Sets scope and permissions, delegates when useful, interprets evidence, and makes decisions and final acceptance. Keeps short or tightly dependent work direct. |
+| **Squire (écuyer)** | A delegate reused across related missions. Investigates, implements, verifies, and follows up; coordinates workers only when authorized. Does not accept its own work. |
+| **Workers** | Sub-agents assigned bounded tasks by the parent or an authorized squire, with distinct ownership for edits. Return results and checks to their caller. |
+| **Advisor** | Challenges a bounded decision with evidence and objections, especially before a critical commitment. Cannot edit, take over execution, or delegate again; the parent keeps the decision. |
+| **Independent reviewer** | Launched directly by the parent to assess the stable artifact when acceptance needs independent review. Advice does not replace this review. |
+| **Router (optional)** | Uses Jev to choose an installed profile by the delegated mission, setting model and reasoning effort for eligible new spawns. The bundled profiles are detailed [below](#optional-model-routing). |
+
+A squire may also consult an advisor for an isolated technical question when its
+assignment and native tools permit it. If nested delegation is unavailable, it
+returns a ready brief for the parent to dispatch. Delegates return sources,
+completed actions and checks, uncertainty, and unresolved decisions; the parent
+reports observed results and material limitations.
 
 Assignments carry explicit scope and permissions. A research request does not
 authorize edits. Give a squire the complete authorized outcome and stopping
@@ -136,9 +165,11 @@ Edit the installed profiles to customize routing. Existing files are preserved.
 To restore a bundled profile, delete its installed copy and start a new session;
 disable the hook before removing the profiles permanently.
 
-The skill leaves model and effort unset unless intentionally pinned. User and
-repository requirements still apply. A routing choice records selection;
-confirming which model actually ran requires runtime evidence.
+The skill leaves model and effort unset unless intentionally pinned. An explicit
+`model`, `reasoning_effort`, or native role (`agent_type`) bypasses the router.
+Without a routing selection, native spawn settings apply. User and repository
+requirements still apply. A routing choice records selection; confirming which
+model actually ran requires runtime evidence.
 
 ## Migrating from Astra Advisor
 
