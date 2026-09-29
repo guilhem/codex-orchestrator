@@ -77,7 +77,7 @@ manifest_path = plugin / ".codex-plugin" / "plugin.json"
 manifest = require_mapping(load_json(manifest_path, "plugin manifest"), "plugin manifest")
 
 require_string(manifest, "name", "plugin manifest", "codex-orchestrator")
-require_string(manifest, "version", "plugin manifest", "0.4.0")
+require_string(manifest, "version", "plugin manifest", "0.4.1")
 require_string(manifest, "description", "plugin manifest")
 require_string(manifest, "homepage", "plugin manifest", "https://github.com/guilhem/codex-orchestrator#readme")
 require_string(manifest, "repository", "plugin manifest", "https://github.com/guilhem/codex-orchestrator")
