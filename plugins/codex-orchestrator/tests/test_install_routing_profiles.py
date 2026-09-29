@@ -42,6 +42,7 @@ class PromptReminderHookTests(unittest.TestCase):
                 ([], False),
                 ([parent], False),
                 ({'prompt': 'hello'}, False),
+                ({'HOOK_EVENT_NAME': 'UserPromptSubmit'}, False),
                 ({**parent, 'hook_event_name': 'SessionStart'}, False),
                 ({**parent, 'hook_event_name': ['UserPromptSubmit']}, False),
                 ({**parent, 'hook_event_name': True}, False),
