@@ -1,7 +1,7 @@
 # Native delegation
 
 Use the host's native agent tools and current schemas. Brief each delegate with
-the objective, relevant context, scope and authorization, constraints, ownership,
+the role, objective, relevant context, scope and authorization, constraints, ownership,
 expected result, and decisions reserved to the parent. The delegate chooses tools
 and operational steps within that mission. An information request does not
 authorize edits. Assign writing workers distinct files and preserve concurrent
@@ -20,18 +20,28 @@ from runtime confirmation. Report an unmet explicit requirement, observed
 mismatch, or material capability limit; missing metadata means the actual setting
 is unknown.
 
-Reuse the [squire](squire.md) for related work and follow-ups. The parent launches
-required independent acceptance review directly under [review](review.md).
+Reuse the [squire](squire.md) only for related simple support and follow-ups. Assign
+substantive research, diagnosis, implementation, and technical validation to workers
+directly; retained context does not change the squire's role. A squire returns an
+engineering question to the parent instead of taking it on or delegating it.
+The parent launches required independent acceptance review directly under [review](review.md).
 Delegation does not complete a task: the parent interprets returned evidence and
 decides integration and acceptance without rerunning worker work. If nested
 delegation is unavailable, a delegate returns a ready brief for parent coordination.
 
 ## Advice when useful
 
-Advice is ordinary bounded, read-only delegation, not an escalation chain. Ask the
-parent about product intent, history, scope, ownership, or permissions. The parent
-may seek advice on its own decisions. For an isolated technical question, a delegate
-may consult an advisor when its assignment permits it and native tools support it.
+Use an advisor to help choose an approach before committing to it. Seek a bounded
+opinion when plausible alternatives have meaningful tradeoffs, evidence leaves the
+diagnosis uncertain, or an assumption could invalidate planned work. Advice is
+useful for ordinary engineering decisions too; do not wait for a high-risk decision
+or the final review. Skip consultation when the next step is straightforward or
+already settled and no new evidence challenges it.
+
+Advice is bounded, read-only delegation. Ask the parent about product intent,
+history, scope, ownership, or permissions. For an isolated technical question, a
+worker may consult an advisor when its assignment permits it and native tools
+support it; a squire returns the question to the parent.
 
 For a critical decision, name the concrete consequences of being wrong and the cost
 of changing course: for example, an interface or data shape that dependent work will

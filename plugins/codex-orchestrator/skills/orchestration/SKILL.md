@@ -9,11 +9,22 @@ The parent frames the objective, constraints, ownership, and expected result, th
 interprets evidence and owns decisions and acceptance. Keep short lookups and
 sequential critical-path work with the parent when briefing and waiting would cost
 more than doing the work.
-Delegate a coherent autonomous task or independent workstream when separate context
-or parallel progress adds value, accounting for briefing and integration. Use the
-[retained squire](references/squire.md) for related operational missions. Do not
-repeat a delegate's work in the parent. Loading required instructions and native
-agent coordination remain parent actions.
+Delegate when separate context or parallel progress adds value, accounting for
+briefing and integration. Choose the role before reusing an agent:
+
+- The [retained squire](references/squire.md) handles simple operational support:
+  finding facts, checking status, running existing commands, and reporting results.
+  It does not implement changes or coordinate other agents.
+- Workers own substantive research, diagnosis, code and test changes, and technical
+  validation. Assign them directly; a familiar squire is not a substitute.
+- An [advisor](references/operations.md#advice-when-useful) gives a bounded,
+  read-only opinion on an open decision before implementation. Seek advice when
+  competing approaches or uncertain assumptions could materially change the plan,
+  not only when the decision is critical. Straightforward, settled work needs none.
+
+Give each delegate a complete authorized mission within its role. Do not repeat
+its work in the parent. Loading required instructions and native agent coordination
+remain parent actions.
 
 Assess decision criticality separately from task difficulty. Before committing work
 to an open decision whose failure would cause substantial harm or costly downstream
