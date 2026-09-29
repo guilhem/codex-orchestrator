@@ -1,5 +1,5 @@
 {
   "description": "Writing or changing ordinary code or tests under a clear contract; standard technical analysis, straightforward diagnosis, ordinary code review, or a well-understood fix. Requires engineering judgement but no difficult open-ended diagnosis, architectural tradeoff, or material security/data-integrity risk.",
-  "model": "gpt-6-sol",
+  "model": "gpt-6.1-sol",
   "reasoning_effort": "high"
 }
