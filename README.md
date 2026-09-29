@@ -26,7 +26,10 @@ capabilities, your instructions, and repository permissions govern what can run.
 ## Quick start
 
 **Requires:** Codex with plugin support and native agent delegation tools, plus
-the `codex` CLI for the installation commands below.
+the `codex` CLI for the installation commands below. Codex **0.157.1** is the
+minimum verified version for filtering subagent prompt hooks. The optional
+prompt reminder also requires **Python 3** on macOS/Linux; Windows uses its
+built-in PowerShell.
 
 1. Register this repository as a marketplace and install the plugin (no checkout
    needed):
@@ -41,7 +44,7 @@ the `codex` CLI for the installation commands below.
 
    | Hook shown in Codex | Event | When to trust it |
    | --- | --- | --- |
-   | **Add Codex Orchestrator reminder** | `UserPromptSubmit` | For a delegation reminder on every prompt. Optional when you invoke the skill explicitly. |
+   | **Add Codex Orchestrator reminder** | `UserPromptSubmit` | For a delegation reminder on every parent prompt. Subagent prompts receive no reminder. Optional when you invoke the skill explicitly. |
    | **Install Codex Orchestrator routing profiles** | `SessionStart` | Only for [optional model routing](#optional-model-routing). |
 
 3. Confirm that the plugin is installed and enabled:
@@ -65,6 +68,13 @@ keeps the user conversation and decides what to do with the returned evidence.
 If the newly installed plugin does not appear in Codex, restart the app and
 check again. If a hook does not run, review its trust state in Codex's hook
 settings.
+
+The prompt hook reads the event JSON and emits no reminder when a top-level
+`agent_id` or `agent_type` field is present, even if its value is empty. Invalid
+input also produces no reminder and does not block the prompt. This prevents
+new injections; existing history, including history copied with
+`fork_context: true`, can still contain earlier reminders. Use a fresh subagent
+context to avoid copying them.
 
 ## How it works
 
@@ -106,7 +116,7 @@ and the final acceptance review still checks the resulting work.
 | Component | Purpose |
 | --- | --- |
 | [Orchestration skill](plugins/codex-orchestrator/skills/orchestration/SKILL.md) | Instructions for delegation, squire reuse, review, and acceptance. |
-| [Hooks](plugins/codex-orchestrator/hooks/hooks.json) | Once trusted, add a brief delegation reminder to each prompt and copy missing bundled profiles into the separate router's configuration directory. |
+| [Hooks](plugins/codex-orchestrator/hooks/hooks.json) | Once trusted, add a brief delegation reminder to each parent prompt and copy missing bundled profiles into the separate router's configuration directory. |
 
 The orchestration skill needs no additional SDK or API key. Automatic model
 selection is an optional integration described below.

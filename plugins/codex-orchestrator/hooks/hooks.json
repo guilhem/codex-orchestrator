@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cat \"${PLUGIN_ROOT}/hooks/prompt-reminder.txt\"",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"Get-Content -Raw -LiteralPath ([IO.Path]::Combine($env:PLUGIN_ROOT, 'hooks', 'prompt-reminder.txt'))\"",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/prompt_reminder.py\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"try { $raw = [Console]::In.ReadToEnd(); if (-not $raw.TrimStart().StartsWith('{')) { exit 0 }; $payload = ConvertFrom-Json -InputObject $raw -ErrorAction Stop; if ($payload -isnot [pscustomobject] -or $payload.PSObject.Properties.Name -cnotcontains 'hook_event_name' -or $payload.hook_event_name -isnot [string] -or $payload.hook_event_name -cne 'UserPromptSubmit' -or $payload.PSObject.Properties.Name -ccontains 'agent_id' -or $payload.PSObject.Properties.Name -ccontains 'agent_type') { exit 0 }; Get-Content -Raw -LiteralPath ([IO.Path]::Combine($env:PLUGIN_ROOT, 'hooks', 'prompt-reminder.txt')) } catch { exit 0 }\"",
             "timeout": 5,
             "statusMessage": "Add Codex Orchestrator reminder"
           }

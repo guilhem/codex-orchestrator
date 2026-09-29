@@ -13,18 +13,56 @@ PROMPT_HOOK = HOOKS['UserPromptSubmit'][0]['hooks'][0]
 
 
 class PromptReminderHookTests(unittest.TestCase):
-    def test_prompt_hook_emits_the_packaged_reminder(self):
+    def test_prompt_hook_filters_child_and_invalid_input(self):
         with tempfile.TemporaryDirectory(prefix='codex orchestrator prompt ') as temporary:
             home = Path(temporary)
             env = {**os.environ, 'PLUGIN_ROOT': str(PLUGIN)}
+            if os.name == 'nt':
+                env['PSEXECUTIONPOLICYPREFERENCE'] = 'Restricted'
             command = PROMPT_HOOK['commandWindows' if os.name == 'nt' else 'command']
             command = command.replace('${PLUGIN_ROOT}', str(PLUGIN))
-            result = subprocess.run(command, shell=True, cwd=home, env=env,
-                                    capture_output=True, text=True, timeout=10)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            # PowerShell adds a transport newline after Get-Content -Raw output.
-            self.assertEqual(result.stdout.rstrip('\r\n'),
-                             (PLUGIN / 'hooks/prompt-reminder.txt').read_text().rstrip('\r\n'))
+            parent = {'hook_event_name': 'UserPromptSubmit',
+                      'prompt': 'agent_id in text', 'metadata': {'agent_type': 'nested'}}
+            cases = [
+                (parent, True),
+                ({**parent, 'agent_id': 'child-1'}, False),
+                ({**parent, 'agent_type': 'default'}, False),
+                ({**parent, 'agent_id': 'child-1', 'agent_type': 'default'}, False),
+                ({**parent, 'agent_id': None}, False),
+                ({**parent, 'agent_id': ''}, False),
+                ({**parent, 'agent_id': False}, False),
+                ({**parent, 'agent_type': False}, False),
+                ({**parent, 'agent_type': None}, False),
+                ({**parent, 'agent_type': ''}, False),
+                ({**parent, 'agent_id': None, 'agent_type': ''}, False),
+                ('', False),
+                ('{', False),
+                (None, False),
+                (False, False),
+                ([], False),
+                ([parent], False),
+                ({'prompt': 'hello'}, False),
+                ({'HOOK_EVENT_NAME': 'UserPromptSubmit'}, False),
+                ({**parent, 'hook_event_name': 'SessionStart'}, False),
+                ({**parent, 'hook_event_name': ['UserPromptSubmit']}, False),
+                ({**parent, 'hook_event_name': True}, False),
+                ({**parent, 'hook_event_name': {'name': 'UserPromptSubmit'}}, False),
+                ({**parent, 'hook_event_name': 'userpromptsubmit'}, False),
+            ]
+            reminder = (PLUGIN / 'hooks/prompt-reminder.txt').read_text()
+            for payload, should_emit in cases:
+                with self.subTest(payload=payload):
+                    input_text = payload if isinstance(payload, str) else json.dumps(payload)
+                    result = subprocess.run(command, shell=True, cwd=home, env=env,
+                                            input=input_text, capture_output=True,
+                                            text=True, timeout=10)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stderr, '')
+                    # PowerShell adds a transport newline after Get-Content -Raw output.
+                    if should_emit:
+                        self.assertEqual(result.stdout.rstrip('\r\n'), reminder.rstrip('\r\n'))
+                    else:
+                        self.assertEqual(result.stdout, '')
 
 
 class InstallRoutingProfilesTests(unittest.TestCase):
