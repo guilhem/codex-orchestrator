@@ -23,8 +23,8 @@ briefing and integration. Choose the role before reusing an agent:
   not only when the decision is critical. Straightforward, settled work needs none.
 
 Give each delegate a complete authorized mission within its role. Do not repeat
-its work in the parent. Loading required instructions and native agent coordination
-remain parent actions.
+its work in the parent. The parent loads required instructions and coordinates
+native agents; a worker may delegate only when its mandate explicitly allows it.
 
 Assess decision criticality separately from task difficulty. Before committing work
 to an open decision whose failure would cause substantial harm or costly downstream
