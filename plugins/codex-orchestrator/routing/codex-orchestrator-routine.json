@@ -1,5 +1,5 @@
 {
   "description": "Routine evidence collection and bounded execution: finding files or facts, extracting information, retrieving documentation or logs, checking status, running existing commands or tests, and reporting observed results. No substantive code changes, technical diagnosis, or architectural judgement is requested.",
-  "model": "gpt-6-luna",
-  "reasoning_effort": "max"
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "low"
 }
