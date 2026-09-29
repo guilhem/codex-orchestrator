@@ -13,11 +13,11 @@ Native agents · Model-agnostic orchestration · MIT licensed
 </div>
 
 Your selected model stays in charge of scope, decisions, and acceptance. A
-**retained squire** — a delegate reused across related assignments — handles a
-coherent autonomous task or independent workstream when delegation adds value. The
-parent keeps short lookups and sequential critical-path work when briefing and
-waiting would cost more. Independent reviewers assess changes when the work calls
-for it.
+**retained squire (écuyer)** handles simple operational support across related
+assignments. **Workers** handle substantive research, diagnosis, and implementation;
+an **advisor** helps the parent assess open choices before implementation. The parent
+keeps short lookups and sequential critical-path work when briefing and waiting
+would cost more. Independent reviewers assess changes when the work calls for it.
 
 The plugin packages this workflow as an [orchestration skill](plugins/codex-orchestrator/skills/orchestration/SKILL.md).
 These are instructions for agents using the host's native tools; available
@@ -62,7 +62,7 @@ built-in PowerShell.
    Reproduce it, make the smallest fix, run the affected tests, and review the diff.
    ```
 
-Follow-ups can reuse the same squire while its context remains useful. The parent
+Support follow-ups can reuse the same squire while its context remains useful. The parent
 keeps the user conversation and decides what to do with the returned evidence.
 
 If the newly installed plugin does not appear in Codex, restart the app and
@@ -79,32 +79,38 @@ context to avoid copying them.
 ## How it works
 
 ```mermaid
-flowchart LR
+flowchart TB
     User["You · goal and constraints"] --> Parent["Parent · decisions and acceptance"]
-    Parent -->|bounded assignments| Squire["Squire and workers · research, build, verify"]
-    Squire -->|evidence and open questions| Parent
+    Parent -->|simple support| Squire["Squire / écuyer · facts, status, existing commands"]
+    Parent -->|technical assignments| Workers["Workers · research, diagnose, build, verify"]
+    Parent -->|open choices| Advisor["Advisor · read-only advice before implementation"]
     Parent -->|when needed| Reviewer["Independent reviewer · read-only assessment"]
-    Reviewer -->|findings| Parent
     Parent -->|accepted result| User
 ```
 
 | Responsibility | How the skill assigns it |
 | --- | --- |
 | **Frame and decide** | The parent sets the objective, scope, ownership, and expected result; interprets evidence; and accepts the work. It keeps work direct when delegation would cost more. |
-| **Research and execute** | When delegation adds value, the squire investigates, implements, verifies, and follows up within its assignment. It can coordinate workers when authorized. |
+| **Support the parent** | The squire finds facts, extracts logs, checks status, and runs existing commands or tests. It reports evidence; it does not change code, diagnose failures, or coordinate agents. |
+| **Research and execute** | Workers receive technical assignments directly: substantive research, diagnosis, implementation, tests, and validation. |
+| **Advise before acting** | An advisor challenges assumptions and compares approaches when uncertainty or tradeoffs could change the plan, including ordinary engineering choices. It stays read-only; the parent decides. |
 | **Review independently** | The parent requests a read-only acceptance review for changes to behavior, supported contracts, or authority boundaries, or when acceptance needs independent evidence. |
 | **Report honestly** | Delegates return sources, completed actions and checks, uncertainty, and unresolved decisions. The parent reports observed results and material limitations. |
 
 Assignments carry explicit scope and permissions. A research request does not
-authorize edits. Give a squire the complete authorized outcome and stopping
-condition, and let it finish dependent phases without routine parent handoffs. Reuse
-it for follow-ups with changed context; split the initial assignment only for a
+authorize edits. Give each delegate the complete authorized outcome and stopping
+condition within its role. Reuse the squire for related support; if that work reveals
+a bug or needs technical judgment, the parent assigns a worker or consults an advisor.
+Split the initial assignment only for a
 verified host routing constraint. Message delivery and interruption are host-specific:
 use exposed controls and check active work before reassignment. After a bounded
 correction, use affected checks and targeted review confirmation; wording-only
 changes need parent assessment.
 
-A simple choice can still be critical when other work depends on it and changing
+Advice helps before implementation; independent review assesses the resulting work.
+Consult when competing approaches or uncertain assumptions could change the plan;
+straightforward or already settled work needs no consultation. A simple choice can
+still be critical when other work depends on it and changing
 course later would be costly. Before committing to such an open decision, the
 parent seeks a bounded advisor opinion and reuses an existing challenge while its
 evidence remains applicable. Critical advice requests the most capable suitable
@@ -183,8 +189,8 @@ need host validation.
 
 | Read more | Covers |
 | --- | --- |
-| [Native delegation](plugins/codex-orchestrator/skills/orchestration/references/operations.md) | Assignment boundaries, optional advice, and separately requested app tasks. |
-| [Retained squire](plugins/codex-orchestrator/skills/orchestration/references/squire.md) | Reuse, reporting, and handoffs. |
+| [Native delegation](plugins/codex-orchestrator/skills/orchestration/references/operations.md) | Assignment boundaries, advice before decisions, and separately requested app tasks. |
+| [Retained squire](plugins/codex-orchestrator/skills/orchestration/references/squire.md) | Simple support, reuse, reporting, and handoffs. |
 | [Independent review](plugins/codex-orchestrator/skills/orchestration/references/review.md) | Acceptance criteria and correction follow-ups. |
 
 ---
